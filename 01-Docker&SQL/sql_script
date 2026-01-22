@@ -1,0 +1,34 @@
+Question 3.
+SELECT COUNT(1) FROM trip_data
+WHERE lpep_pickup_datetime >= timestamp '2025-11-01 00:00:00'
+	AND lpep_pickup_datetime < timestamp '2025-12-01 00:00:00'
+	AND trip_distance <= 1;
+Question 4.
+SELECT * FROM trip_data
+WHERE trip_distance IN 
+	(
+		SELECT MAX(trip_distance) FROM trip_data
+		WHERE trip_distance < 100
+	)
+
+Question 5.
+SELECT * FROM
+(
+	SELECT "PULocationID", SUM(total_amount) amt FROM trip_data
+	WHERE lpep_pickup_datetime >= '2025-11-18 00:00:00'
+	AND lpep_pickup_datetime < '2025-11-19 00:00:00'
+	GROUP BY "PULocationID" 
+) ttbl
+JOIN "zone" ztbl
+ON ttbl."PULocationID" = ztbl."LocationID"
+ORDER BY amt DESC
+
+Question 6.
+SELECT dozone."Zone", ttbl.tip_amount
+FROM trip_data ttbl
+JOIN zone puzone ON ttbl."PULocationID" = puzone."LocationID"
+JOIN zone dozone ON ttbl."DOLocationID" = dozone."LocationID"
+WHERE puzone."Zone" = 'East Harlem North'
+	AND ttbl.lpep_pickup_datetime >= '2025-11-01 00:00:00'
+    AND ttbl.lpep_pickup_datetime < '2025-12-01 00:00:00'
+ORDER BY 2 DESC
