@@ -3,6 +3,7 @@ SELECT COUNT(1) FROM trip_data
 WHERE lpep_pickup_datetime >= timestamp '2025-11-01 00:00:00'
 	AND lpep_pickup_datetime < timestamp '2025-12-01 00:00:00'
 	AND trip_distance <= 1;
+	
 Question 4.
 SELECT * FROM trip_data
 WHERE trip_distance IN 
